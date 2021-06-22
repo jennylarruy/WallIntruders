@@ -2,6 +2,8 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 
+import java.util.ArrayList;
+
 public class Main {
 
     public static void main(String[] args) throws Exception {
@@ -10,38 +12,33 @@ public class Main {
         terminalFactory.setInitialTerminalSize(new TerminalSize(80,40));
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
-/*
-        player= new player
-        wall = new wall
 
+        ArrayList<Wall> wallList = new ArrayList<>();
+        int ticker = 0;
         while (true) {
+            ticker++;
+            if (ticker % 20 == 0) {
+                Wall.addWall(wallList);
+            }
+            for (Wall wall : wallList) {
+                wall.moveWall();
+                wall.printPosition();
+                for (int row = 0; row <= 40; row++) {
+                    if (row < wall.getyTop() && row > wall.getyBottom()) {
+                        for (int col = wall.getxLeft(); col < 80; col++) { //Math.min(80, wall.getxRight())
+                            System.out.println("hey");
+                            terminal.setCursorPosition(col, row);
+                            terminal.putCharacter('o');
+                        }
+                    }
+                }
 
-            walls.move
-            walls.create
+            }
+//            Wall.removeWall(wallList);
+            terminal.flush();
+            Thread.sleep(100);
 
-            mine.move
-            mine.create
 
-            check if key pressed => move player
-
-            check collision
         }
-
-
-         - skapa spelare
-         - skapa först vägg längst till höger
-
-        LOOP:
-        - skapa vägg regelbundent, slumpmässigt placering
-        - flytta väggar, loopa genom lista med väggobjekt (typ max 3 samtidigt?)
-
-        Flytta spelare vid knapptryckning
-        - check kollision med vägg
-
-         */
-
-
     }
-
-
 }
