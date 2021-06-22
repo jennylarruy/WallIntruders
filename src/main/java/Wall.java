@@ -1,4 +1,7 @@
+import com.googlecode.lanterna.terminal.Terminal;
+
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,7 +21,7 @@ public class Wall {
     }
 
     public static void addWall(ArrayList<Wall> wallList) {
-        if (wallList.size() < 1) {
+        if (wallList.size() < 3) {
             Random rand = new Random();
             int yTopNew = rand.nextInt(15) + 5; // top corner between 5 and 20
             int gap = rand.nextInt(5) + 10; // width between 10 and 15
@@ -32,16 +35,28 @@ public class Wall {
         System.out.println("ytop: "+yTop+" ybottom "+yBottom+" xleft "+xLeft+" xright "+xRight);
     }
 
+    public void drawWall(Terminal terminal) throws IOException {
+        for (int row = 0; row <= 40; row++) {
+            if (row < this.getyTop() || row > this.getyBottom()) {
+                for (int col = this.getxLeft(); col < Math.min(80, this.getxRight()); col++) {
+                    terminal.setCursorPosition(col, row);
+                    terminal.putCharacter('o');
+                    terminal.setCursorPosition(col + 1, row);
+                    terminal.putCharacter(' ');
+                }
+            }
+        }
+    }
+
     public void moveWall() {
         this.xRight -= 1;
         this.xLeft -= 1;
     }
 
     public static void removeWall(ArrayList<Wall> wallList) {
-        for (Wall wall : wallList) {
-            if (wall.xRight < 0) {
-                wallList.remove(wall);
-            }
+        Wall wallOnTheLeft =  wallList.get(0);
+        if (wallOnTheLeft.xRight < 1) {
+            wallList.remove(wallOnTheLeft);
         }
     }
 

@@ -17,24 +17,16 @@ public class Main {
         int ticker = 0;
         while (true) {
             ticker++;
-            if (ticker % 20 == 0) {
+            if (ticker % 30 == 0) {
                 Wall.addWall(wallList);
             }
             for (Wall wall : wallList) {
                 wall.moveWall();
-                wall.printPosition();
-                for (int row = 0; row <= 40; row++) {
-                    if (row < wall.getyTop() && row > wall.getyBottom()) {
-                        for (int col = wall.getxLeft(); col < 80; col++) { //Math.min(80, wall.getxRight())
-                            System.out.println("hey");
-                            terminal.setCursorPosition(col, row);
-                            terminal.putCharacter('o');
-                        }
-                    }
-                }
-
+                wall.drawWall(terminal);
             }
-//            Wall.removeWall(wallList);
+            if (wallList.size() != 0) {
+                Wall.removeWall(wallList);
+            }
             terminal.flush();
             Thread.sleep(100);
 
