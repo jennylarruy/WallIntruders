@@ -1,3 +1,9 @@
+import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.terminal.Terminal;
+
+import javax.swing.*;
+import java.io.IOException;
+
 public class Player {
 
     private int x;
@@ -54,27 +60,39 @@ public class Player {
         this.previousY = previousY;
     }
 
-    public void moveUp(){
-        previousX = x;
-        previousY = y;
-        y -= 2;
+    public void move(KeyType keyType){
+        switch (keyType) {
+            case ArrowUp -> {
+                previousX = x;
+                previousY = y;
+                y -= 1;
+            }
+            case ArrowDown -> {
+                previousX = x;
+                previousY = y;
+                y += 1;
+            }
+
+            case ArrowRight -> {
+                previousX = x;
+                previousY = y;
+                x += 1;
+            }
+            case ArrowLeft -> {
+                previousX = x;
+                previousY = y;
+                x -= 1;
+            }
+        }
     }
 
-    public void moveDown(){
-        previousX = x;
-        previousY = y;
-        y += 2;
-    }
+    public void print(Terminal terminal) throws IOException {
 
-    public void moveLeft(){
-        previousX = x;
-        previousY = y;
-        x -= 2;
-    }
+        terminal.setCursorPosition(x, y);
+        terminal.putCharacter(symbol);
 
-    public void moveRight(){
-        previousX = x;
-        previousY = y;
-        x += 2;
+        terminal.setCursorPosition(previousX, previousY);
+        terminal.putCharacter(' ');
+
     }
 }
