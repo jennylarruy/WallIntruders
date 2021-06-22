@@ -1,6 +1,10 @@
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+
+import javax.swing.*;
 
 public class Main {
 
@@ -10,7 +14,46 @@ public class Main {
         terminalFactory.setInitialTerminalSize(new TerminalSize(80,40));
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
-/*
+
+        Player player = new Player(4, 20, '\u2588');
+        terminal.setCursorPosition(player.getX(), player.getY());
+        terminal.putCharacter(player.getSymbol());
+        terminal.flush();
+
+        boolean continueReadingInput = true;
+
+        //Game Loop
+        while (continueReadingInput) {
+
+            KeyStroke keyStroke;
+            int k = 0;
+
+            do {
+                k++;
+
+                Thread.sleep(5);
+                keyStroke = terminal.pollInput();
+
+            } while (keyStroke == null);
+
+            KeyType type = keyStroke.getKeyType();
+            Character c = keyStroke.getCharacter();
+
+            player.move(type);
+            player.print(terminal);
+            terminal.flush();
+
+            //Exit the program
+            if (c == Character.valueOf('q')) {
+                continueReadingInput = false;
+                terminal.close();
+                System.out.println("quit");
+            }
+        }
+
+
+        }
+        /*
         player= new player
         wall = new wall
 
@@ -41,7 +84,7 @@ public class Main {
          */
 
 
-    }
-
-
 }
+
+
+
