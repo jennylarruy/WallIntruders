@@ -10,9 +10,23 @@ public class Main {
         terminalFactory.setInitialTerminalSize(new TerminalSize(80,40));
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
+/*
+        player= new player
+        wall = new wall
 
+        while (true) {
 
-        /*
+            walls.move
+            walls.create
+
+            mine.move
+            mine.create
+
+            check if key pressed => move player
+
+            check collision
+        }
+
 
          - skapa spelare
          - skapa först vägg längst till höger
