@@ -1,6 +1,9 @@
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.input.KeyStroke;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import java.util.ArrayList;
@@ -19,10 +22,14 @@ public class Main {
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
 
+        terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
         Player player = new Player(4, 20, '\u2588');
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
         terminal.flush();
+
+//        Screen screen = new TerminalScreen(terminal);
+
 
         ArrayList<Wall> wallList = new ArrayList<>();
         ArrayList<Mine> mineList = new ArrayList<>();
@@ -40,6 +47,7 @@ public class Main {
             }
             for (Wall wall : wallList) {
                 wall.moveWall();
+                terminal.setForegroundColor(new TextColor.RGB(10, 255, 20));
                 wall.drawWall(terminal);
             }
             if (wallList.size() != 0) {
@@ -53,7 +61,7 @@ public class Main {
                 Mine.removeMine(mineList, terminal);
             }
             terminal.flush();
-            Thread.sleep(50);
+            Thread.sleep(50 - Wall.wallScore/2);
 
             KeyStroke keyStroke = terminal.pollInput();
 
@@ -66,6 +74,7 @@ public class Main {
                     System.out.println("quit");
                 }
                 player.move(type);
+                terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
                 player.print(terminal);
                 terminal.flush();
             }
@@ -73,7 +82,8 @@ public class Main {
             if (Wall.playerHitWall(player, wallList)) {
                 System.out.println("HIT");
                 String str = "YOU HIT A WALL!";
-                terminal.setCursorPosition(10, 10);
+                terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
+                terminal.setCursorPosition(20, 10);
                 for (int i = 0; i < str.length(); i++) {
                     terminal.putCharacter(str.charAt(i));
                 }
