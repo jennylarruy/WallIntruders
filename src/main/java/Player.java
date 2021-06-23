@@ -87,13 +87,22 @@ public class Player {
         }
     }
 
-    public void print(Terminal terminal) throws IOException {
+    public boolean print(Terminal terminal) throws IOException, InterruptedException {
 
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(symbol);
 
         terminal.setCursorPosition(previousX, previousY);
         terminal.putCharacter(' ');
+        return true;
+    }
 
+    public boolean hitBoundary() {
+        for(int i = 0; i <= 80; i++) {
+            if(x == -1 || x == 81 || y == - 1 || y == 41) {
+                return true;
+            }
+        }
+        return false;
     }
 }
