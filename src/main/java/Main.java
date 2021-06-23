@@ -4,6 +4,7 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -14,14 +15,12 @@ public class Main {
         terminalFactory.setInitialTerminalSize(new TerminalSize(80, 40));
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
-
         terminal.setForegroundColor(new TextColor.RGB(200, 200, 100));
 
-
-        Scoreboard scoreboard = new Scoreboard(2,2, terminal);
+        Scoreboard scoreboard = new Scoreboard(2, 2, terminal);
         Header header = new Header(5, 5);
         header.print(terminal);
-
+        Wall eraserWall = new Wall(1, 1, "left");
 
         terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
         Player player = new Player(4, 20, '\u2588');
@@ -46,13 +45,22 @@ public class Main {
             }
             if (k % 30 == 0) {
                 Wall.addWall(wallList);
-                if (wallList.get(wallList.size()-1).getDirection().equals("left")) {
+                if (wallList.get(wallList.size() - 1).getDirection().equals("left")) {
                     int topY = wallList.get(wallList.size() - 1).getyTop();
                     int bottomY = wallList.get(wallList.size() - 1).getyBottom();
                     Mine.addMine(mineList, topY, bottomY);
                 }
                 Coin.addCoin(coinList);
 
+            }
+            if (k < 80) {
+                eraserWall.moveWall();
+                terminal.setForegroundColor(new TextColor.RGB(0, 0, 0));
+                eraserWall.drawWall(terminal);
+                terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
+                terminal.setCursorPosition(player.getX(), player.getY());
+                terminal.putCharacter(player.getSymbol());
+                terminal.flush();
             }
 
             for (Wall wall : wallList) {
@@ -141,10 +149,6 @@ public class Main {
                 Wall.wallScore++; //annan score?
 
             }
-
         }
-
     }
-
-
 }
