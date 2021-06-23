@@ -156,4 +156,8 @@ public class Wall {
     public void setyBottom(int yBottom) {
         this.yBottom = yBottom;
     }
+
+    public String getDirection() {
+        return direction;
+    }
 }

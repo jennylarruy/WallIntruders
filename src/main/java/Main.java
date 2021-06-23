@@ -46,9 +46,11 @@ public class Main {
             }
             if (k % 30 == 0) {
                 Wall.addWall(wallList);
-                int topY = wallList.get(wallList.size() - 1).getyTop();
-                int bottomY = wallList.get(wallList.size() - 1).getyBottom();
-                Mine.addMine(mineList, topY, bottomY);
+                if (wallList.get(wallList.size()-1).getDirection().equals("left")) {
+                    int topY = wallList.get(wallList.size() - 1).getyTop();
+                    int bottomY = wallList.get(wallList.size() - 1).getyBottom();
+                    Mine.addMine(mineList, topY, bottomY);
+                }
                 Coin.addCoin(coinList);
 
             }
