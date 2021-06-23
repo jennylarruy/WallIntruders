@@ -5,6 +5,7 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Player {
 
@@ -13,6 +14,7 @@ public class Player {
     private char symbol;
     private int previousX;
     private  int previousY;
+    public ArrayList<Integer> lifeList = new ArrayList<>();
 
     public Player (int x, int y, char symbol) {
         this.x = x;
@@ -20,6 +22,10 @@ public class Player {
         this.symbol = symbol;
         this.previousX = x;
         this.previousY = y;
+
+        for (int i = 0; i < 3; i++) {
+            lifeList.add(1);
+        }
     }
 
     public int getX() {
@@ -104,5 +110,13 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public void removeLife() {
+       lifeList.remove(0);
+    }
+
+    public void addLife() {
+        lifeList.add(1);
     }
 }
