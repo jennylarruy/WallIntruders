@@ -2,8 +2,6 @@ import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.input.KeyStroke;
-import com.googlecode.lanterna.screen.Screen;
-import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import java.util.ArrayList;
@@ -11,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class Main {
 
@@ -22,14 +19,16 @@ public class Main {
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
 
+        terminal.setForegroundColor(new TextColor.RGB(200, 200, 100));
+        Header header = new Header(5,5);
+        header.print(terminal);
+
+
         terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
         Player player = new Player(4, 20, '\u2588');
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
         terminal.flush();
-
-//        Screen screen = new TerminalScreen(terminal);
-
 
         ArrayList<Wall> wallList = new ArrayList<>();
         ArrayList<Mine> mineList = new ArrayList<>();
@@ -39,6 +38,12 @@ public class Main {
         //Game Loop
         while (continueReadingInput) {
             k++;
+            terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
+            terminal.setCursorPosition(2, 10);
+            terminal.putCharacter(String.valueOf(Wall.wallScore).charAt(0));
+            if (Wall.wallScore > 9) {
+                terminal.putCharacter(String.valueOf(Wall.wallScore).charAt(1));
+            }
             if (k % 30 == 0) {
                 Wall.addWall(wallList);
                 int topY = wallList.get(wallList.size() - 1).getyTop();
@@ -55,6 +60,7 @@ public class Main {
             }
             for (Mine mine : mineList) {
                 mine.moveMine();
+                terminal.setForegroundColor(new TextColor.RGB(255, 50, 50));
                 mine.drawMine(terminal);
             }
             if (mineList.size() != 0) {
@@ -74,7 +80,7 @@ public class Main {
                     System.out.println("quit");
                 }
                 player.move(type);
-                terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
+                terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
                 player.print(terminal);
                 terminal.flush();
             }
