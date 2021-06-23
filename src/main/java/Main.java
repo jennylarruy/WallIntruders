@@ -5,22 +5,18 @@ import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
-import javax.swing.*;
 
 public class Main {
 
     public static void main(String[] args) throws Exception {
 
         DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory();
-        terminalFactory.setInitialTerminalSize(new TerminalSize(80,40));
+        terminalFactory.setInitialTerminalSize(new TerminalSize(80, 40));
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
 
         terminal.setForegroundColor(new TextColor.RGB(200, 200, 100));
-        Header header = new Header(5,5);
+        Header header = new Header(5, 5);
         header.print(terminal);
 
 
@@ -32,6 +28,7 @@ public class Main {
 
         ArrayList<Wall> wallList = new ArrayList<>();
         ArrayList<Mine> mineList = new ArrayList<>();
+        ArrayList<Coin> coinList = new ArrayList<>();
 
         boolean continueReadingInput = true;
         int k = 0;
@@ -49,7 +46,10 @@ public class Main {
                 int topY = wallList.get(wallList.size() - 1).getyTop();
                 int bottomY = wallList.get(wallList.size() - 1).getyBottom();
                 Mine.addMine(mineList, topY, bottomY);
+                Coin.addCoin(coinList);
+
             }
+
             for (Wall wall : wallList) {
                 wall.moveWall();
                 terminal.setForegroundColor(new TextColor.RGB(10, 255, 20));
@@ -66,8 +66,16 @@ public class Main {
             if (mineList.size() != 0) {
                 Mine.removeMine(mineList, terminal);
             }
+            for (Coin coin : coinList) {
+                coin.moveCoin();
+                terminal.setForegroundColor(new TextColor.RGB(255, 228, 81));
+                coin.drawCoin(terminal);
+            }
+            if (coinList.size() != 0) {
+                Coin.removeCoin(coinList, terminal);
+            }
             terminal.flush();
-            Thread.sleep(50 - Wall.wallScore/2);
+            Thread.sleep(50 - Wall.wallScore / 2);
 
             KeyStroke keyStroke = terminal.pollInput();
 
@@ -112,10 +120,24 @@ public class Main {
                 terminal.close();
 
             }
+            if (Coin.hasCollectedCoin(player, coinList)) {
+                terminal.setForegroundColor(new TextColor.RGB(255, 228, 81));
+                terminal.setCursorPosition(player.getX(), player.getY());
+                terminal.putCharacter(player.getSymbol());
+                System.out.println("COIN");
+                String str = "1$!";
+                terminal.setCursorPosition(10, 10);
+                for (int i = 0; i < str.length(); i++) {
+                    terminal.putCharacter(str.charAt(i));
+                }
+                terminal.flush();
+                Wall.wallScore++; //annan score?
+
+            }
 
         }
-
-        }
-
 
     }
+
+
+}

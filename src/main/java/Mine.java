@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class Mine {
 
-    final static char MINE_FIG = 'o';
+    final static char MINE_FIG = '¤';
     private int x;
     private int y;
     private int prevX;
@@ -36,19 +36,19 @@ public class Mine {
         this.y = y;
     }
 
-    public int getPrevx() {
+    public int getPrevX() {
         return prevX;
     }
 
-    public void setPrevx(int prevx) {
+    public void setPrevX(int prevx) {
         this.prevX = prevx;
     }
 
-    public int getPrevy() {
+    public int getPrevY() {
         return prevY;
     }
 
-    public void setPrevy(int prevy) {
+    public void setPrevY(int prevy) {
         this.prevY = prevy;
     }
 
@@ -62,7 +62,7 @@ public class Mine {
 
     public void drawMine(Terminal terminal) throws IOException {
         terminal.setCursorPosition(x, y);
-        terminal.putCharacter(Mine.MINE_FIG);
+        terminal.putCharacter(MINE_FIG);
         terminal.setCursorPosition(prevX, prevY);
         terminal.putCharacter(' ');
         terminal.flush();
