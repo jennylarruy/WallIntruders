@@ -40,7 +40,7 @@ public class Wall {
             if (row < this.getyTop() || row > this.getyBottom()) {
                 for (int col = this.getxLeft(); col < Math.min(80, this.getxRight()); col++) {
                     terminal.setCursorPosition(col, row);
-                    terminal.putCharacter('o');
+                    terminal.putCharacter('\u2588');
                     terminal.setCursorPosition(col + 1, row);
                     terminal.putCharacter(' ');
                 }
