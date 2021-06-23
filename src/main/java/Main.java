@@ -16,6 +16,9 @@ public class Main {
         terminal.setCursorVisible(false);
 
         terminal.setForegroundColor(new TextColor.RGB(200, 200, 100));
+
+
+        Scoreboard scoreboard = new Scoreboard(2,2, terminal);
         Header header = new Header(5, 5);
         header.print(terminal);
 
@@ -74,6 +77,8 @@ public class Main {
             if (coinList.size() != 0) {
                 Coin.removeCoin(coinList, terminal);
             }
+
+            scoreboard.print(Wall.wallScore, player.lifeList.size());
             terminal.flush();
             Thread.sleep(50 - Wall.wallScore / 2);
 
