@@ -1,8 +1,11 @@
 import com.googlecode.lanterna.TerminalSize;
-import com.googlecode.lanterna.input.KeyType;
-import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import javax.swing.*;
 
