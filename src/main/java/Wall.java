@@ -60,6 +60,14 @@ public class Wall {
         }
     }
 
+    public static boolean playerHitWall(Player player, ArrayList<Wall> wallList) {
+        for (Wall wall : wallList) {
+            if (player.getX() == wall.xLeft && (player.getY() > wall.yTop || player.getY() < wall.yBottom)) {
+                return true;
+            }
+        }
+    }
+
     public int getxLeft() {
         return xLeft;
     }

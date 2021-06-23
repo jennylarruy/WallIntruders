@@ -59,6 +59,9 @@ public class Main {
 
             player.move(type);
             player.print(terminal);
+            if (Wall.playerHitWall(player, wallList)) {
+                System.out.println("HIT");
+            }
             terminal.flush();
 
             //Exit the program
