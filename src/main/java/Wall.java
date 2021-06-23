@@ -1,4 +1,7 @@
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
 import com.googlecode.lanterna.terminal.Terminal;
+
 
 import java.awt.*;
 import java.io.IOException;
@@ -10,8 +13,9 @@ public class Wall {
     private int xRight;
     private int yTop;
     private int yBottom;
-    public static int WIDTH = 5;
-
+    public static int WIDTH = 3;
+    public static int wallScore = 0;
+    private TextGraphics graphics;
 
     public Wall (int yTop, int yBottom) {
         this.yTop = yTop;
@@ -23,11 +27,10 @@ public class Wall {
     public static void addWall(ArrayList<Wall> wallList) {
         if (wallList.size() < 3) {
             Random rand = new Random();
-            int yTopNew = rand.nextInt(15) + 5; // top corner between 5 and 20
-            int gap = rand.nextInt(5) + 10; // width between 10 and 15
-            int yBottomNew = yTopNew + gap; // bottom corner between 15 (5 + 10) and 35 (20 + 15)
+            int yTopNew = rand.nextInt(20) + 3; // top corner between 3 and 23
+            int gap = rand.nextInt(8) + 6; // width between 6 and 14
+            int yBottomNew = yTopNew + gap; // bottom corner between 9 and 37
             wallList.add(new Wall(yTopNew, yBottomNew));
-//            System.out.println("new wall at ytop "+yTopNew+" ybottom "+yBottomNew);
         }
     }
 
@@ -57,6 +60,8 @@ public class Wall {
         Wall wallOnTheLeft =  wallList.get(0);
         if (wallOnTheLeft.xRight < 1) {
             wallList.remove(wallOnTheLeft);
+            wallScore++;
+            System.out.println(wallScore);
         }
     }
 
