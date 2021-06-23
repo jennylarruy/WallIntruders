@@ -23,14 +23,13 @@ public class Main {
         terminal.flush();
 
         ArrayList<Wall> wallList = new ArrayList<>();
-        int ticker = 0;
 
         boolean continueReadingInput = true;
-
+        int k = 0;
         //Game Loop
         while (continueReadingInput) {
-            ticker++;
-            if (ticker % 30 == 0) {
+            k++;
+            if (k % 30 == 0) {
                 Wall.addWall(wallList);
             }
             for (Wall wall : wallList) {
@@ -41,36 +40,37 @@ public class Main {
                 Wall.removeWall(wallList);
             }
             terminal.flush();
-            Thread.sleep(100);
+            Thread.sleep(50);
 
+            KeyStroke keyStroke = terminal.pollInput();
 
-            KeyStroke keyStroke;
-            int k = 0;
+            if (keyStroke != null) {
+                KeyType type = keyStroke.getKeyType();
+                Character c = keyStroke.getCharacter();
+                if (c == Character.valueOf('q')) {
+                    continueReadingInput = false;
+                    terminal.close();
+                    System.out.println("quit");
+                }
+                player.move(type);
+                player.print(terminal);
+                terminal.flush();
+            }
 
-            do {
-                k++;
-
-                Thread.sleep(5);
-                keyStroke = terminal.pollInput();
-
-            } while (keyStroke == null);
-
-            KeyType type = keyStroke.getKeyType();
-            Character c = keyStroke.getCharacter();
-
-            player.move(type);
-            player.print(terminal);
             if (Wall.playerHitWall(player, wallList)) {
                 System.out.println("HIT");
-            }
-            terminal.flush();
-
-            //Exit the program
-            if (c == Character.valueOf('q')) {
+                String str = "YOU HIT A WALL!";
+                terminal.setCursorPosition(10, 10);
+                for (int i = 0; i < str.length(); i++) {
+                    terminal.putCharacter(str.charAt(i));
+                }
+                terminal.flush();
+                Thread.sleep(2000);
                 continueReadingInput = false;
                 terminal.close();
-                System.out.println("quit");
+
             }
+
         }
 
         }

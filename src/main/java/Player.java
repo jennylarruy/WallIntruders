@@ -1,7 +1,9 @@
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.terminal.Terminal;
 
-import javax.swing.*;
 import java.io.IOException;
 
 public class Player {
@@ -62,27 +64,26 @@ public class Player {
 
     public void move(KeyType keyType){
         switch (keyType) {
-            case ArrowUp -> {
+            case ArrowUp : {
                 previousX = x;
                 previousY = y;
                 y -= 1;
-            }
-            case ArrowDown -> {
+            } break;
+            case ArrowDown : {
                 previousX = x;
                 previousY = y;
                 y += 1;
-            }
-
-            case ArrowRight -> {
+            } break;
+            case ArrowRight : {
                 previousX = x;
                 previousY = y;
                 x += 1;
-            }
-            case ArrowLeft -> {
+            } break;
+            case ArrowLeft : {
                 previousX = x;
                 previousY = y;
                 x -= 1;
-            }
+            } break;
         }
     }
 

@@ -27,7 +27,7 @@ public class Wall {
             int gap = rand.nextInt(5) + 10; // width between 10 and 15
             int yBottomNew = yTopNew + gap; // bottom corner between 15 (5 + 10) and 35 (20 + 15)
             wallList.add(new Wall(yTopNew, yBottomNew));
-            System.out.println("new wall at ytop "+yTopNew+" ybottom "+yBottomNew);
+//            System.out.println("new wall at ytop "+yTopNew+" ybottom "+yBottomNew);
         }
     }
 
@@ -62,7 +62,7 @@ public class Wall {
 
     public static boolean playerHitWall(Player player, ArrayList<Wall> wallList) {
         for (Wall wall : wallList) {
-            if (player.getX() == wall.xLeft && (player.getY() > wall.yTop || player.getY() < wall.yBottom)) {
+            if (player.getX() == wall.xLeft && (player.getY() < wall.yTop || player.getY() > wall.yBottom)) {
                 return true;
             }
         }
