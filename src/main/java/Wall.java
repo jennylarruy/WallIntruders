@@ -66,6 +66,7 @@ public class Wall {
                 return true;
             }
         }
+        return false;
     }
 
     public int getxLeft() {
