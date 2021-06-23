@@ -24,7 +24,7 @@ public class Wall {
     }
 
     public static void addWall(ArrayList<Wall> wallList) {
-        if (wallList.size() < 3) {
+        if (wallList.size() < 4) {
             Random rand = new Random();
             int yTopNew;
             int yBottomNew;
@@ -65,9 +65,9 @@ public class Wall {
                 }
             }
         } else if (this.direction.equalsIgnoreCase("up")) {
-            for (int row = 0; row <= 40; row++) {
-                if (row > this.getyTop() && row < this.getyBottom()) {
-                    for (int col = this.getxLeft(); col < Math.min(80, this.getxRight()); col++) {
+            for (int row = -40; row <= 40; row++) {
+                if (row >= this.getyTop() && row <= this.getyBottom()) {
+                    for (int col = this.getxLeft(); col <= Math.min(80, this.getxRight()); col++) {
                         terminal.setCursorPosition(col, row);
                         terminal.putCharacter('\u2588');
                         terminal.setCursorPosition(col + 1, row + 1);
@@ -76,9 +76,9 @@ public class Wall {
                 }
             }
         } else { // direction down
-            for (int row = 40; row >= 0; row--) {
-                if (row > this.getyTop() && row < this.getyBottom()) {
-                    for (int col = this.getxLeft(); col < Math.min(80, this.getxRight()); col++) {
+            for (int row = 80; row >= 0; row--) {
+                if (row >= this.getyTop() && row <= this.getyBottom()) {
+                    for (int col = this.getxLeft(); col <= Math.min(80, this.getxRight()); col++) {
                         terminal.setCursorPosition(col, row);
                         terminal.putCharacter('\u2588');
                         terminal.setCursorPosition(col + 1, row - 1);
@@ -87,6 +87,7 @@ public class Wall {
                 }
             }
         }
+        terminal.flush();
     }
 
     public void moveWall() {
@@ -103,13 +104,7 @@ public class Wall {
 
     public static void removeWall(ArrayList<Wall> wallList) {
         Wall wallOnTheLeft =  wallList.get(0);
-        if (wallOnTheLeft.xRight < 1) {
-            wallList.remove(wallOnTheLeft);
-            wallScore++;
-        } else if (wallOnTheLeft.direction.equalsIgnoreCase("up") && wallOnTheLeft.yBottom < 2) {
-            wallList.remove(wallOnTheLeft);
-            wallScore++;
-        } else if (wallOnTheLeft.direction.equalsIgnoreCase("down") && wallOnTheLeft.yTop > 38) {
+        if (wallOnTheLeft.xRight < 0) {
             wallList.remove(wallOnTheLeft);
             wallScore++;
         }
