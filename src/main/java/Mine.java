@@ -55,29 +55,29 @@ public class Mine {
     public static void addMine(ArrayList<Mine> mineList, int topY, int bottomY) {
         if (mineList.size() < 3) {
             Random rand = new Random();
-            int yRand = rand.nextInt(40 - bottomY) + topY;
+            int yRand = rand.nextInt(bottomY-topY) + topY;
             mineList.add(new Mine(80, yRand));
-
-            System.out.println("new mine at x: 80  y: " + yRand);
         }
     }
 
     public void drawMine(Terminal terminal) throws IOException {
-            terminal.setCursorPosition(x, y);
-            terminal.putCharacter(Mine.MINE_FIG);
-            terminal.setCursorPosition(prevX, prevY);
-            terminal.putCharacter(' ');
-            terminal.flush();
+        terminal.setCursorPosition(x, y);
+        terminal.putCharacter(Mine.MINE_FIG);
+        terminal.setCursorPosition(prevX, prevY);
+        terminal.putCharacter(' ');
+        terminal.flush();
     }
 
     public void moveMine() {
         prevX = x;
         prevY = y;
-        x++;
+        x--;
     }
 
-    public static void removeMine(ArrayList<Mine> mineList) {
-        if (mineList.get(0).x <= 1) {
+    public static void removeMine(ArrayList<Mine> mineList, Terminal terminal) throws IOException {
+        if (mineList.get(0).x < 1) {
+            terminal.setCursorPosition(mineList.get(0).x, mineList.get(0).y);
+            terminal.putCharacter(' ');
             mineList.remove(mineList.get(0));
         }
     }
@@ -92,36 +92,4 @@ public class Mine {
     }
 }
 
-//----MAIN--------------------------------------------------------
-/*    ArrayList<Mine> mineList = new ArrayList<>();
-
-    int ticker = 0;
-        while (true) {
-        ticker++;
-        if (ticker % 30 == 0) {
-            Wall.addWall(wallList);
-            int topY = wallList.get(wallList.size() - 1).getyTop;
-            int bottomY = wallList.get(wallList.size() - 1).getyBottom;
-            Mine.addMine(mineList, topY, bottomY);     //Jenny
-        }
-
-        for (Wall wall : wallList) {
-            wall.moveWall();
-            wall.drawWall(terminal);
-        }
-        for (Mine mine : mineList) {    //Jenny
-            mine.moveMine();            //Jenny
-            mine.drawMine(terminal);    //Jenny
-        }                               //Jenny
-        if (wallList.size() != 0) {
-            Wall.removeWall(wallList);
-        }
-        if (mineList.size() != 0) {     //Jenny
-            Mine.removeMine(addMine();  //Jenny
-        }                               //Jenny
-        terminal.flush();
-        Thread.sleep(100);
-    }
-
- */
 

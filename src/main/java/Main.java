@@ -1,14 +1,13 @@
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.input.KeyType;
+import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
-
 import javax.swing.*;
-
 import java.util.ArrayList;
 
 public class Main {
@@ -26,6 +25,7 @@ public class Main {
         terminal.flush();
 
         ArrayList<Wall> wallList = new ArrayList<>();
+        ArrayList<Mine> mineList = new ArrayList<>();
 
         boolean continueReadingInput = true;
         int k = 0;
@@ -34,6 +34,9 @@ public class Main {
             k++;
             if (k % 30 == 0) {
                 Wall.addWall(wallList);
+                int topY = wallList.get(wallList.size() - 1).getyTop();
+                int bottomY = wallList.get(wallList.size() - 1).getyBottom();
+                Mine.addMine(mineList, topY, bottomY);
             }
             for (Wall wall : wallList) {
                 wall.moveWall();
@@ -41,6 +44,13 @@ public class Main {
             }
             if (wallList.size() != 0) {
                 Wall.removeWall(wallList);
+            }
+            for (Mine mine : mineList) {
+                mine.moveMine();
+                mine.drawMine(terminal);
+            }
+            if (mineList.size() != 0) {
+                Mine.removeMine(mineList, terminal);
             }
             terminal.flush();
             Thread.sleep(50);
@@ -63,6 +73,19 @@ public class Main {
             if (Wall.playerHitWall(player, wallList)) {
                 System.out.println("HIT");
                 String str = "YOU HIT A WALL!";
+                terminal.setCursorPosition(10, 10);
+                for (int i = 0; i < str.length(); i++) {
+                    terminal.putCharacter(str.charAt(i));
+                }
+                terminal.flush();
+                Thread.sleep(2000);
+                continueReadingInput = false;
+                terminal.close();
+
+            }
+            if (Mine.hasHitMine(player, mineList)) {
+                System.out.println("HIT");
+                String str = "YOU HIT A MINE!";
                 terminal.setCursorPosition(10, 10);
                 for (int i = 0; i < str.length(); i++) {
                     terminal.putCharacter(str.charAt(i));
