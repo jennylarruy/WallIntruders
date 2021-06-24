@@ -16,7 +16,6 @@ public class Main {
         terminalFactory.setInitialTerminalSize(new TerminalSize(80, 40));
         Terminal terminal = terminalFactory.createTerminal();
         terminal.setCursorVisible(false);
-
         terminal.setForegroundColor(new TextColor.RGB(200, 200, 100));
 
         ArrayList<Wall> wallList = new ArrayList<>();
@@ -41,12 +40,22 @@ public class Main {
 
             if (k % 30 == 0) {
                 Wall.addWall(wallList);
-                if (wallList.get(wallList.size()-1).getDirection().equals("left")) {
+                if (wallList.get(wallList.size() - 1).getDirection().equals("left")) {
                     int topY = wallList.get(wallList.size() - 1).getyTop();
                     int bottomY = wallList.get(wallList.size() - 1).getyBottom();
                     Mine.addMine(mineList, topY, bottomY);
                 }
                 Coin.addCoin(coinList);
+            }
+            if (k == 40) {
+                terminal.setForegroundColor(new TextColor.RGB(0, 0, 0));
+                for (int x=1; x<65; x++){
+                    for (int y=1; y<18; y++){
+                        terminal.setCursorPosition(x,y);
+                        terminal.putCharacter(' ');
+                    }
+                }
+                terminal.flush();
             }
 
             if (k % 300 == 0) {
