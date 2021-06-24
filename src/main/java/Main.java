@@ -32,6 +32,7 @@ public class Main {
         ArrayList<Wall> wallList = new ArrayList<>();
         ArrayList<Mine> mineList = new ArrayList<>();
         ArrayList<Coin> coinList = new ArrayList<>();
+        ArrayList<Bullet> bulletList = new ArrayList<>();
 
         boolean continueReadingInput = true;
         int k = 0;
@@ -80,6 +81,12 @@ public class Main {
                 Coin.removeCoin(coinList, terminal);
             }
 
+            Bullet.move(bulletList);
+            Bullet.draw(bulletList, terminal);
+            terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
+            player.print(terminal);
+            terminal.flush();
+
             scoreboard.print(Wall.wallScore, player.lifeList.size());
             terminal.flush();
             Thread.sleep(50 - Wall.wallScore / 2);
@@ -94,9 +101,14 @@ public class Main {
                     terminal.close();
                     System.out.println("quit");
                 }
+
                 player.move(type);
                 terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
                 player.print(terminal);
+
+                if (c == Character.valueOf('f')) {
+                    Bullet.add(player, bulletList);
+                }
                 terminal.flush();
             }
 
