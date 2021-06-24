@@ -1,4 +1,5 @@
 import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.input.KeyType;
@@ -94,7 +95,7 @@ public class Player {
     }
 
     public boolean print(Terminal terminal) throws IOException, InterruptedException {
-
+        terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(symbol);
 

@@ -1,3 +1,4 @@
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
@@ -62,6 +63,7 @@ public class Coin {
     }
 
     public void drawCoin(Terminal terminal) throws IOException {
+        terminal.setForegroundColor(new TextColor.RGB(255, 228, 81));
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(COIN_FIG);
         terminal.setCursorPosition(prevX, prevY);

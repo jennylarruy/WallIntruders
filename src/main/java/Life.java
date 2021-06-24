@@ -1,3 +1,4 @@
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
@@ -64,6 +65,7 @@ public class Life {
     }
 
     public void drawLife(Terminal terminal) throws IOException {
+        terminal.setForegroundColor(new TextColor.RGB(255, 0, 0));
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(LIFE_FIG);
         terminal.setCursorPosition(prevX, prevY);

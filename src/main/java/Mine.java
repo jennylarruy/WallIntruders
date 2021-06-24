@@ -1,3 +1,4 @@
+import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.io.IOException;
@@ -61,6 +62,7 @@ public class Mine {
     }
 
     public void drawMine(Terminal terminal) throws IOException {
+        terminal.setForegroundColor(new TextColor.RGB(255, 50, 50));
         terminal.setCursorPosition(x, y);
         terminal.putCharacter(MINE_FIG);
         terminal.setCursorPosition(prevX, prevY);

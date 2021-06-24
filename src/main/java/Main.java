@@ -4,6 +4,8 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -27,11 +29,8 @@ public class Main {
         Header header = new Header(5, 5);
         header.print(terminal);
 
-
-        terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
         Player player = new Player(4, 20, '\u2588');
-        terminal.setCursorPosition(player.getX(), player.getY());
-        terminal.putCharacter(player.getSymbol());
+        player.print(terminal);
         terminal.flush();
 
         boolean continueReadingInput = true;
@@ -48,7 +47,6 @@ public class Main {
                     Mine.addMine(mineList, topY, bottomY);
                 }
                 Coin.addCoin(coinList);
-
             }
 
             if (k % 300 == 0) {
@@ -62,15 +60,14 @@ public class Main {
 
             for (Mine mine : mineList) {
                 mine.moveMine();
-                terminal.setForegroundColor(new TextColor.RGB(255, 50, 50));
                 mine.drawMine(terminal);
             }
             if (mineList.size() != 0) {
                 Mine.removeMine(mineList, terminal);
             }
+
             for (Coin coin : coinList) {
                 coin.moveCoin();
-                terminal.setForegroundColor(new TextColor.RGB(255, 228, 81));
                 coin.drawCoin(terminal);
             }
             if (coinList.size() != 0) {
@@ -79,7 +76,6 @@ public class Main {
 
             for (Life life : lifeList) {
                 life.moveLife();
-                terminal.setForegroundColor(new TextColor.RGB(255, 0, 0));
                 life.drawLife(terminal);
             }
             if (lifeList.size() != 0) {
@@ -88,17 +84,13 @@ public class Main {
 
             Bullet.move(bulletList);
             Bullet.draw(bulletList, terminal);
-
-            terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
             player.print(terminal);
-            terminal.flush();
 
             scoreboard.print(Wall.wallScore, Life.numOfLife);
             terminal.flush();
             Thread.sleep(50 - Wall.wallScore / 2);
 
             KeyStroke keyStroke = terminal.pollInput();
-
             if (keyStroke != null) {
                 KeyType type = keyStroke.getKeyType();
                 Character c = keyStroke.getCharacter();
@@ -109,7 +101,6 @@ public class Main {
                 }
 
                 player.move(type);
-                terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
                 player.print(terminal);
 
                 if (c == Character.valueOf('f')) {
@@ -120,16 +111,8 @@ public class Main {
 
             if (Wall.playerHitWall(player, wallList)) {
                 if (Life.numOfLife == 0) {
-
-                    System.out.println("HIT");
                     String str = "YOU HIT A WALL!";
-                    terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
-                    terminal.setCursorPosition(20, 10);
-                    for (int i = 0; i < str.length(); i++) {
-                        terminal.putCharacter(str.charAt(i));
-                    }
-
-                    terminal.flush();
+                    printInfo(str, terminal);
                     Thread.sleep(2000);
                     continueReadingInput = false;
                     terminal.close();
@@ -137,18 +120,12 @@ public class Main {
                 else {
                     Life.numOfLife--;
                 }
-
             }
+
             if (Mine.hasHitMine(player, mineList)) {
-
                 if (Life.numOfLife == 0) {
-                    System.out.println("HIT");
                     String str = "YOU HIT A MINE!";
-                    terminal.setCursorPosition(10, 10);
-                    for (int i = 0; i < str.length(); i++) {
-                        terminal.putCharacter(str.charAt(i));
-                    }
-                    terminal.flush();
+                    printInfo(str, terminal);
                     Thread.sleep(2000);
                     continueReadingInput = false;
                     terminal.close();
@@ -156,37 +133,32 @@ public class Main {
                 else {
                     Life.numOfLife--;
                 }
-
             }
+
             if (Coin.hasCollectedCoin(player, coinList)) {
-                terminal.setForegroundColor(new TextColor.RGB(255, 228, 81));
                 terminal.setCursorPosition(player.getX(), player.getY());
                 terminal.putCharacter(player.getSymbol());
-                System.out.println("COIN");
                 String str = "1$!";
-                terminal.setCursorPosition(10, 10);
-                for (int i = 0; i < str.length(); i++) {
-                    terminal.putCharacter(str.charAt(i));
-                }
-                terminal.flush();
+                printInfo(str, terminal);
                 Wall.wallScore++; //annan score?
-
             }
 
             if (Life.hasCollectedLife(player, lifeList)) {
-                terminal.setForegroundColor(new TextColor.RGB(255, 228, 81));
                 terminal.setCursorPosition(player.getX(), player.getY());
                 terminal.putCharacter(player.getSymbol());
                 System.out.println("LIFE");
                 String str = "1❤!";
-                terminal.setCursorPosition(10, 10);
-                for (int i = 0; i < str.length(); i++) {
-                    terminal.putCharacter(str.charAt(i));
-                }
-                terminal.flush();
-
+                printInfo(str, terminal);
             }
         }
+    }
+    public static void printInfo(String info, Terminal terminal) throws IOException {
+        terminal.setForegroundColor(new TextColor.RGB(250, 0, 250));
+        terminal.setCursorPosition(10, 10);
+        for (int i = 0; i < info.length(); i++) {
+            terminal.putCharacter(info.charAt(i));
+        }
+        terminal.flush();
     }
 
 
