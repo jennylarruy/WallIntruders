@@ -17,11 +17,15 @@ public class Main {
 
         terminal.setForegroundColor(new TextColor.RGB(200, 200, 100));
 
+        ArrayList<Wall> wallList = new ArrayList<>();
+        ArrayList<Mine> mineList = new ArrayList<>();
+        ArrayList<Coin> coinList = new ArrayList<>();
+        ArrayList<Life> lifeList = new ArrayList<>();
+        ArrayList<Bullet> bulletList = new ArrayList<>();
 
         Scoreboard scoreboard = new Scoreboard(2,2, terminal);
         Header header = new Header(5, 5);
         header.print(terminal);
-
 
         terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
         Player player = new Player(4, 20, '\u2588');
@@ -29,22 +33,12 @@ public class Main {
         terminal.putCharacter(player.getSymbol());
         terminal.flush();
 
-        ArrayList<Wall> wallList = new ArrayList<>();
-        ArrayList<Mine> mineList = new ArrayList<>();
-        ArrayList<Coin> coinList = new ArrayList<>();
-        ArrayList<Bullet> bulletList = new ArrayList<>();
-
         boolean continueReadingInput = true;
         int k = 0;
         //Game Loop
         while (continueReadingInput) {
             k++;
-            terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
-            terminal.setCursorPosition(2, 10);
-            terminal.putCharacter(String.valueOf(Wall.wallScore).charAt(0));
-            if (Wall.wallScore > 9) {
-                terminal.putCharacter(String.valueOf(Wall.wallScore).charAt(1));
-            }
+
             if (k % 30 == 0) {
                 Wall.addWall(wallList);
                 if (wallList.get(wallList.size()-1).getDirection().equals("left")) {
@@ -54,6 +48,10 @@ public class Main {
                 }
                 Coin.addCoin(coinList);
 
+            }
+
+            if (k % 300 == 0) {
+                Life.addLife(lifeList);
             }
 
             for (Wall wall : wallList) {
@@ -81,13 +79,22 @@ public class Main {
                 Coin.removeCoin(coinList, terminal);
             }
 
+            for (Life life : lifeList) {
+                life.moveLife();
+                terminal.setForegroundColor(new TextColor.RGB(255, 0, 0));
+                life.drawLife(terminal);
+            }
+            if (lifeList.size() != 0) {
+                Life.removeLife(lifeList, terminal);
+            }
+
             Bullet.move(bulletList);
             Bullet.draw(bulletList, terminal);
             terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
             player.print(terminal);
             terminal.flush();
 
-            scoreboard.print(Wall.wallScore, player.lifeList.size());
+            scoreboard.print(Wall.wallScore, Life.numOfLife);
             terminal.flush();
             Thread.sleep(50 - Wall.wallScore / 2);
 
@@ -113,30 +120,43 @@ public class Main {
             }
 
             if (Wall.playerHitWall(player, wallList)) {
-                System.out.println("HIT");
-                String str = "YOU HIT A WALL!";
-                terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
-                terminal.setCursorPosition(20, 10);
-                for (int i = 0; i < str.length(); i++) {
-                    terminal.putCharacter(str.charAt(i));
+                if (Life.numOfLife == 0) {
+
+                    System.out.println("HIT");
+                    String str = "YOU HIT A WALL!";
+                    terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
+                    terminal.setCursorPosition(20, 10);
+                    for (int i = 0; i < str.length(); i++) {
+                        terminal.putCharacter(str.charAt(i));
+                    }
+
+                    terminal.flush();
+                    Thread.sleep(2000);
+                    continueReadingInput = false;
+                    terminal.close();
                 }
-                terminal.flush();
-                Thread.sleep(2000);
-                continueReadingInput = false;
-                terminal.close();
+                else {
+                    Life.numOfLife--;
+                }
 
             }
             if (Mine.hasHitMine(player, mineList)) {
-                System.out.println("HIT");
-                String str = "YOU HIT A MINE!";
-                terminal.setCursorPosition(10, 10);
-                for (int i = 0; i < str.length(); i++) {
-                    terminal.putCharacter(str.charAt(i));
+
+                if (Life.numOfLife == 0) {
+                    System.out.println("HIT");
+                    String str = "YOU HIT A MINE!";
+                    terminal.setCursorPosition(10, 10);
+                    for (int i = 0; i < str.length(); i++) {
+                        terminal.putCharacter(str.charAt(i));
+                    }
+                    terminal.flush();
+                    Thread.sleep(2000);
+                    continueReadingInput = false;
+                    terminal.close();
                 }
-                terminal.flush();
-                Thread.sleep(2000);
-                continueReadingInput = false;
-                terminal.close();
+                else {
+                    Life.numOfLife--;
+                }
 
             }
             if (Coin.hasCollectedCoin(player, coinList)) {
@@ -154,9 +174,19 @@ public class Main {
 
             }
 
+            if (Life.hasCollectedLife(player, lifeList)) {
+                terminal.setForegroundColor(new TextColor.RGB(255, 228, 81));
+                terminal.setCursorPosition(player.getX(), player.getY());
+                terminal.putCharacter(player.getSymbol());
+                System.out.println("LIFE");
+                String str = "1❤!";
+                terminal.setCursorPosition(10, 10);
+                for (int i = 0; i < str.length(); i++) {
+                    terminal.putCharacter(str.charAt(i));
+                }
+                terminal.flush();
+
+            }
         }
-
     }
-
-
 }
