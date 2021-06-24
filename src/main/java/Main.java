@@ -4,6 +4,7 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+
 import java.util.ArrayList;
 
 public class Main {
@@ -22,7 +23,7 @@ public class Main {
         ArrayList<Life> lifeList = new ArrayList<>();
         ArrayList<Bullet> bulletList = new ArrayList<>();
 
-        Scoreboard scoreboard = new Scoreboard(2,2, terminal);
+        Scoreboard scoreboard = new Scoreboard(2, 2, terminal);
         Header header = new Header(5, 5);
         header.print(terminal);
 
@@ -50,9 +51,9 @@ public class Main {
             }
             if (k == 40) {
                 terminal.setForegroundColor(new TextColor.RGB(0, 0, 0));
-                for (int x=1; x<65; x++){
-                    for (int y=1; y<18; y++){
-                        terminal.setCursorPosition(x,y);
+                for (int x = 1; x < 65; x++) {
+                    for (int y = 1; y < 18; y++) {
+                        terminal.setCursorPosition(x, y);
                         terminal.putCharacter(' ');
                     }
                 }
@@ -141,8 +142,7 @@ public class Main {
                     Thread.sleep(2000);
                     continueReadingInput = false;
                     terminal.close();
-                }
-                else {
+                } else {
                     Life.numOfLife--;
                 }
 
@@ -160,8 +160,7 @@ public class Main {
                     Thread.sleep(2000);
                     continueReadingInput = false;
                     terminal.close();
-                }
-                else {
+                } else {
                     Life.numOfLife--;
                 }
 
@@ -194,6 +193,14 @@ public class Main {
                 terminal.flush();
 
             }
+
+            if (Bullet.hasShotSomething(terminal, bulletList, mineList, coinList, lifeList)) {
+                System.out.println("YOU SHOT SOMETHING!!");
+
+            }
+            /*if (Bullet.hasHitWall(bulletList,wallList)){
+                System.out.println("YOU SHOT THE WALL");
+            }*/
         }
     }
 
