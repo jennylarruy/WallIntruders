@@ -56,14 +56,11 @@ public class Main {
 
             }
 
+            Wall.moveRemoveWall(wallList);
             for (Wall wall : wallList) {
-                wall.moveWall();
-                terminal.setForegroundColor(new TextColor.RGB(10, 255, 20));
                 wall.drawWall(terminal);
             }
-            if (wallList.size() != 0) {
-                Wall.removeWall(wallList);
-            }
+
             for (Mine mine : mineList) {
                 mine.moveMine();
                 terminal.setForegroundColor(new TextColor.RGB(255, 50, 50));
@@ -83,6 +80,7 @@ public class Main {
 
             Bullet.move(bulletList);
             Bullet.draw(bulletList, terminal);
+
             terminal.setForegroundColor(new TextColor.RGB(0, 0, 250));
             player.print(terminal);
             terminal.flush();
