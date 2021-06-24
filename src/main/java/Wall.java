@@ -1,8 +1,5 @@
-
 import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.terminal.Terminal;
-
-import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -128,32 +125,16 @@ public class Wall {
         return xLeft;
     }
 
-    public void setxLeft(int xLeft) {
-        this.xLeft = xLeft;
-    }
-
     public int getxRight() {
         return xRight;
-    }
-
-    public void setxRight(int xRight) {
-        this.xRight = xRight;
     }
 
     public int getyTop() {
         return yTop;
     }
 
-    public void setyTop(int yTop) {
-        this.yTop = yTop;
-    }
-
     public int getyBottom() {
         return yBottom;
-    }
-
-    public void setyBottom(int yBottom) {
-        this.yBottom = yBottom;
     }
 
     public String getDirection() {

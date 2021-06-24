@@ -24,33 +24,8 @@ public class Mine {
         return x;
     }
 
-    public void setX(int x) {
-
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getPrevX() {
-        return prevX;
-    }
-
-    public void setPrevX(int prevx) {
-        this.prevX = prevx;
-    }
-
-    public int getPrevY() {
-        return prevY;
-    }
-
-    public void setPrevY(int prevy) {
-        this.prevY = prevy;
     }
 
     public static void addMine(ArrayList<Mine> mineList, int topY, int bottomY) {

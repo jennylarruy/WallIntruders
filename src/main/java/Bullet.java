@@ -78,32 +78,4 @@ public class Bullet {
         }
         return false;
     }
-
-   /*public static boolean hasHitWall(ArrayList<Bullet>bulletList, ArrayList<Wall>wallList) {
-        for (Bullet bullet : bulletList) {
-            for (Wall wall : wallList) {
-                if (bullet.x < wall.getxLeft() && (bullet.y < wall.getyTop() || bullet.x > wall.getyBottom())) {
-
-                    return true;
-                }
-            }
-        }
-        return false;
-    }*/
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
 }

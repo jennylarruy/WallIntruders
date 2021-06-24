@@ -9,19 +9,23 @@ public class Scoreboard {
     private int y;
     Terminal terminal;
 
-    public Scoreboard(int x, int y, Terminal terminal) throws IOException {
+    public Scoreboard(int x, int y, Terminal terminal) {
 
         this.x = x;
         this.y = y;
         this.terminal = terminal;
-
     }
 
     public void print(int score, int lives) throws IOException {
         TextGraphics tg = terminal.newTextGraphics();
         tg.setBackgroundColor(TextColor.ANSI.WHITE);
         tg.setForegroundColor(TextColor.ANSI.BLACK);
-        tg.putString(x,y,"LIVES: " + lives);
         tg.putString(x,y + 1,"SCORE: " + score);
+        if(score < 10) {
+            tg.putString(x,y,"LIVES: " + lives);
+        }
+        else {
+            tg.putString(x,y,"LIVES:  " + lives);
+        }
     }
 }

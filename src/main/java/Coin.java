@@ -24,33 +24,8 @@ public class Coin {
         return x;
     }
 
-    public void setX(int x) {
-
-        this.x = x;
-    }
-
     public int getY() {
         return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
-
-    public int getPrevX() {
-        return prevX;
-    }
-
-    public void setPrevX(int prevX) {
-        this.prevX = prevX;
-    }
-
-    public int getPrevY() {
-        return prevY;
-    }
-
-    public void setPrevY(int prevY) {
-        this.prevY = prevY;
     }
 
     public static void addCoin(ArrayList<Coin> coinList) {
