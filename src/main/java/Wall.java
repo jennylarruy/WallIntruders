@@ -48,11 +48,8 @@ public class Wall {
         }
     }
 
-    public void printPosition() {
-        System.out.println("ytop: "+yTop+" ybottom "+yBottom+" xleft "+xLeft+" xright "+xRight);
-    }
-
     public void drawWall(Terminal terminal) throws IOException {
+        terminal.setForegroundColor(new TextColor.RGB(10, 255, 20));
         if (this.direction.equalsIgnoreCase("left")) {
             for (int row = 0; row <= 40; row++) {
                 if (row < this.getyTop() || row > this.getyBottom()) {
@@ -90,24 +87,25 @@ public class Wall {
         terminal.flush();
     }
 
-    public void moveWall() {
-        this.xRight -= 1;
-        this.xLeft -= 1;
-        if (this.direction.equalsIgnoreCase("up") && this.xLeft < 60) {
-            this.yBottom -= 1;
-            this.yTop -= 1;
-        } else if (this.direction.equalsIgnoreCase("down") && this.xLeft < 60) {
-            this.yBottom += 1;
-            this.yTop += 1;
+    public static void moveRemoveWall (ArrayList<Wall> wallList) {
+        for (Wall wall : wallList) {
+            wall.xRight -= 1;
+            wall.xLeft -= 1;
+            if (wall.direction.equalsIgnoreCase("up") && wall.xLeft < 60) {
+                wall.yBottom -= 1;
+                wall.yTop -= 1;
+            } else if (wall.direction.equalsIgnoreCase("down") && wall.xLeft < 60) {
+                wall.yBottom += 1;
+                wall.yTop += 1;
+            }
         }
-    }
-
-    public static void removeWall(ArrayList<Wall> wallList) {
-        Wall wallOnTheLeft =  wallList.get(0);
-        if (wallOnTheLeft.xRight < 0) {
-            wallList.remove(wallOnTheLeft);
-            wallScore++;
-        }
+        try {
+            Wall wallOnTheLeft = wallList.get(0);
+            if (wallOnTheLeft.xRight < 0) {
+                wallList.remove(wallOnTheLeft);
+                wallScore++;
+            }
+        } catch (IndexOutOfBoundsException ignored) {}
     }
 
     public static boolean playerHitWall(Player player, ArrayList<Wall> wallList) {

@@ -19,10 +19,17 @@ public class Bullet {
             bullet.xPrev = bullet.x;
             bullet.x += 1;
         }
+        try {
+            if (bullets.get(0).x > 80) {
+                bullets.remove(0);
+            }
+        } catch (IndexOutOfBoundsException ignored) {}
     }
 
     public static void add(Player player, ArrayList<Bullet> bullets) {
-        bullets.add(new Bullet(player.getX(), player.getY()));
+        if (bullets.size() < 5) {
+            bullets.add(new Bullet(player.getX(), player.getY()));
+        }
     }
 
     public static void draw(ArrayList<Bullet> bullets, Terminal terminal) throws IOException {
