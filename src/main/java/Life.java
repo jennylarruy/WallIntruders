@@ -7,12 +7,12 @@ import java.util.Random;
 
 public class Life {
 
-    final static char LIFE_FIG = '❤';
+    final static char LIFE_FIG = '♥';
     private int x;
     private int y;
     private int prevX;
     private int prevY;
-    public static int numOfLife = 3;
+    public static int numOfLife;
 
     public Life(int x, int y) {
         this.x = x;
@@ -91,11 +91,18 @@ public class Life {
         for (Life life : lifeList) {
             if (player.getX() == life.x && player.getY() == life.y) {
                 lifeList.remove(life);
-                numOfLife++;
+                addToLife();
                 return true;
             }
         }
         return false;
+    }
+
+    public static void addToLife() {
+
+        if (numOfLife < 3) {
+            numOfLife++;
+        }
     }
 }
 

@@ -49,8 +49,8 @@ public class Main {
             }
             if (k == 40) {
                 terminal.setForegroundColor(new TextColor.RGB(0, 0, 0));
-                for (int x=1; x<65; x++){
-                    for (int y=1; y<18; y++){
+                for (int x=1; x<70; x++){
+                    for (int y=1; y<20; y++){
                         terminal.setCursorPosition(x,y);
                         terminal.putCharacter(' ');
                     }

@@ -16,16 +16,21 @@ public class Header {
 
     public void print(Terminal terminal) throws IOException {
 
-        headerStrings.add("   _____                          ");
-        headerStrings.add("  / ___/ ____   ____ _ _____ ___  ");
-        headerStrings.add("  \\__ \\ / __ \\ / __ `// ___// _ \\ ");
-        headerStrings.add(" ___/ // /_/ // /_/ // /__ /  __/  ");
-        headerStrings.add("/____// .___/ \\__,_/ \\___/ \\___/   ");
+        headerStrings.add("                                       [=====>");
+        headerStrings.add("                                       [  (    _____");
+        headerStrings.add("                                        \\__\\,-'//   `--._");
+        headerStrings.add("                                         [_/~||,-----.\\@_\\\\___");
+        headerStrings.add("   _____                                 [_) |||()()()   ~[|||>");
+        headerStrings.add("  / ___/ ____   ____ _ _____ ___         [_\\_||`-----'   //");
+        headerStrings.add("  \\__ \\ / __ \\ / __ `// ___// _ \\       /  /`-.\\___,--'==(-");
+        headerStrings.add(" ___/ // /_/ // /_/ // /__ /  __/      [  (");
+        headerStrings.add("/____// .___/ \\__,_/ \\___/ \\___/       [=====>");
         headerStrings.add("    _/_/        __                    __                     ");
         headerStrings.add("   /  _/____   / /_ _____ __  __ ____/ /___   _____ _____    ");
         headerStrings.add("   / / / __ \\ / __// ___// / / // __  // _ \\ / ___// ___/  ");
         headerStrings.add(" _/ / / / / // /_ / /   / /_/ // /_/ //  __// /   (__  )     ");
         headerStrings.add("/___//_/ /_/ \\__//_/    \\__,_/ \\__,_/ \\___//_/   /____/  ");
+
 
         int j = 0;
         for (String str : headerStrings) {
