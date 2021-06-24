@@ -43,35 +43,48 @@ public class Bullet {
         }
     }
 
-    public static boolean hasShotSomething(Terminal terminal, ArrayList<Bullet> bulletList, ArrayList<Mine> mineList, ArrayList<Coin> coinList, ArrayList<Life> lifeList) throws IOException {
-        for (Bullet bullet : bulletList) {
-            for (Mine mine : mineList) {
-                if (bullet.x == mine.getX() && bullet.y == mine.getY()) {
-                    terminal.setCursorPosition(bullet.x, bullet.y);
+    public boolean hasShotSomething(Terminal terminal, ArrayList<Mine> mineList, ArrayList<Coin> coinList, ArrayList<Life> lifeList, ArrayList<Wall> wallList) throws IOException {
+        for (Mine mine : mineList) {
+            if (x == mine.getX() && y == mine.getY()) {
+                terminal.setCursorPosition(x, y);
+                terminal.putCharacter(' ');
+                terminal.flush();
+                mineList.remove(mine);
+                return true;
+            }
+        }
+        for (Coin coin : coinList) {
+            if (x == coin.getX() && y == coin.getY()) {
+                terminal.setCursorPosition(x, y);
+                terminal.putCharacter(' ');
+                terminal.flush();
+                coinList.remove(coin);
+                return true;
+            }
+        }
+        for (Life life : lifeList) {
+            if (x == life.getX() && y == life.getY()) {
+                terminal.setCursorPosition(x, y);
+                terminal.putCharacter(' ');
+                terminal.flush();
+                lifeList.add(life);
+                return true;
+            }
+        }
+        for (Wall wall : wallList) {
+            if (wall.getDirection().equalsIgnoreCase("left")) {
+                if (x >= wall.getxLeft() - 1 && (y <= wall.getyTop() || y >= wall.getyBottom())) {
+                    terminal.setCursorPosition(x, y);
                     terminal.putCharacter(' ');
                     terminal.flush();
-                    mineList.remove(mine);
-                    bulletList.remove(bullet);
                     return true;
                 }
             }
-            for (Coin coin : coinList) {
-                if (bullet.x == coin.getX() && bullet.y == coin.getY()) {
-                    terminal.setCursorPosition(bullet.x, bullet.y);
+            else {
+                if (x >= wall.getxLeft() - 1 && (y >= wall.getyTop() && y <= wall.getyBottom())) {
+                    terminal.setCursorPosition(x, y);
                     terminal.putCharacter(' ');
                     terminal.flush();
-                    coinList.remove(coin);
-                    bulletList.remove(bullet);
-                    return true;
-                }
-            }
-            for (Life life : lifeList) {
-                if (bullet.x == life.getX() && bullet.y == life.getY()) {
-                    terminal.setCursorPosition(bullet.x, bullet.y);
-                    terminal.putCharacter(' ');
-                    terminal.flush();
-                    lifeList.remove(life);
-                    bulletList.remove(bullet);
                     return true;
                 }
             }

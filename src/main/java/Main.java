@@ -73,6 +73,20 @@ public class Main {
                 terminal.flush();
             }
 
+            ArrayList<Integer> hits = new ArrayList<>();
+            for (int i = 0; i < bulletList.size(); i++) {
+                Bullet bullet = bulletList.get(i);
+                boolean hit = bullet.hasShotSomething(terminal, mineList, coinList, lifeList, wallList);
+                if (hit) {
+                    hits.add(i);
+                }
+            }
+            int p = 0;
+            for (int i = 0; i < hits.size(); i++) {
+                bulletList.remove(i-p);
+                p++;
+            }
+
             continueReadingInput = hasHit(player, terminal, wallList, mineList, coinList, lifeList, bulletList, continueReadingInput);
         }
     }
@@ -181,10 +195,6 @@ public class Main {
             System.out.println("LIFE");
             String str = "1❤!";
             printInfo(str, terminal);
-        }
-
-        if (Bullet.hasShotSomething(terminal, bulletList, mineList, coinList, lifeList)) {
-            System.out.println("YOU SHOT SOMETHING!!");
         }
 
         return continueReadingInput;
