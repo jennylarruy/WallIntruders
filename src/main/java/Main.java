@@ -27,11 +27,10 @@ public class Main {
         header.print(terminal);
 
         terminal.setForegroundColor(new TextColor.RGB(255, 0, 20));
-        Player player = new Player(4, 20, '\u2588');
+        Player player = new Player(4, 20, '▶');
         terminal.setCursorPosition(player.getX(), player.getY());
         terminal.putCharacter(player.getSymbol());
         terminal.flush();
-
         boolean continueReadingInput = true;
         int k = 0;
         //Game Loop
