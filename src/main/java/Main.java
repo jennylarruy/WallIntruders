@@ -4,8 +4,6 @@ import com.googlecode.lanterna.input.KeyType;
 import com.googlecode.lanterna.input.KeyStroke;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
-
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Main {
@@ -24,7 +22,7 @@ public class Main {
         ArrayList<Life> lifeList = new ArrayList<>();
         ArrayList<Bullet> bulletList = new ArrayList<>();
 
-        Scoreboard scoreboard = new Scoreboard(2,2, terminal);
+        Scoreboard scoreboard = new Scoreboard(2, 2, terminal);
         Header header = new Header(5, 5);
         header.print(terminal);
 
@@ -159,6 +157,15 @@ public class Main {
                 String str = "1❤!";
                 printInfo(str, terminal);
             }
+            if (Bullet.hasShotSomething(terminal, bulletList, mineList, coinList, lifeList)) {
+                System.out.println("YOU SHOT SOMETHING!!");
+
+            }
+            /*if (Bullet.hasHitWall(bulletList,wallList)){
+                System.out.println("YOU SHOT THE WALL");
+            }*/
+
+
         }
     }
     public static void printInfo(String info, Terminal terminal) throws IOException {
